@@ -13,21 +13,18 @@ public class IosTest extends TestBase {
 
     @Test
     @Tag("ios")
-    @DisplayName("Поиск статей на Wiki")
-    void successfulSearchTest() {
+    @DisplayName("Проверка результата поиска")
+    void checkResultTest() {
         step("click button Text", () -> {
             $(id("Text Button")).click();
         });
-
         step("Click on the field 'Enter a text'", () -> {
             $(id("Text Input")).click();
         });
-
         step("Send value in 'Enter a text' and send Enter", () -> {
             $(id("Text Input")).sendKeys("Mobile IOS Test");
             $(id("Text Input")).pressEnter();
         });
-
         step("Check result", () -> {
             assertThat($(id("Text Output")).getText())
                     .isEqualTo("Mobile IOS Test");
