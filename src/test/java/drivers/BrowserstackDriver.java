@@ -24,27 +24,13 @@ public class BrowserstackDriver implements WebDriverProvider {
         MutableCapabilities mutableCapabilities = new MutableCapabilities();
 
         // Set your access credentials
-//        mutableCapabilities.setCapability("browserstack.user", "yoursheff1");
-//        mutableCapabilities.setCapability("browserstack.key", "zcq5LUf4gRAzYhd6FVsx");
-
         mutableCapabilities.setCapability("browserstack.user", auth.getUser());
         mutableCapabilities.setCapability("browserstack.key", auth.getKey());
 
-        //userName: yoursheff1
-        //accessKey: zcq5LUf4gRAzYhd6FVsx
-
         // Set URL of the application under test
-//        mutableCapabilities.setCapability("app", "bs://sample.app");
         mutableCapabilities.setCapability("app", mobile.getApp());
 
         // Specify device and os_version for testing
-//        mutableCapabilities.setCapability("device", "Google Pixel 3");
-//        mutableCapabilities.setCapability("os_version", "9.0");
-
-
-//        mutableCapabilities.setCapability("device", "iPhone 14 Pro Max");
-//        mutableCapabilities.setCapability("os_version", "16.0");
-
         mutableCapabilities.setCapability("device", mobile.getDevice());
         mutableCapabilities.setCapability("os_version", mobile.getVersion());
 
@@ -57,7 +43,6 @@ public class BrowserstackDriver implements WebDriverProvider {
         // and desired capabilities defined above
         try {
             return new RemoteWebDriver(
-//                    new URL("https://hub.browserstack.com/wd/hub"), mutableCapabilities);
                     new URL(auth.getRemoteUrl()), mutableCapabilities);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);

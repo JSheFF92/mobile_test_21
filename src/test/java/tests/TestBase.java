@@ -1,6 +1,5 @@
 package tests;
 
-import com.beust.ah.A;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -31,7 +30,6 @@ public class TestBase {
 
     @AfterEach
     void afterEach() {
-//        Attach.screenshotAs("Last screenshot");
         Attach.pageSource();
 
         String sessionId = Selenide.sessionId().toString();
