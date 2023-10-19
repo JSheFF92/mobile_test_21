@@ -21,7 +21,8 @@ public class TestBase {
     static void beforeAll() {
         if (deviceHost.equals("browserstack")) {
             Configuration.browser = BrowserstackDriver.class.getName();
-        }else {
+        }
+        if (deviceHost.equals("emulation")) {
             Configuration.browser = LocalDriver.class.getName();
         }
         Configuration.browserSize = null;
