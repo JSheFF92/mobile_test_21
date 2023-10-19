@@ -1,8 +1,7 @@
 package drivers;
 
 import com.codeborne.selenide.WebDriverProvider;
-import config.AuthConfig;
-import config.MobileConfig;
+import config.BrowserstackConfig;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
@@ -14,36 +13,29 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class BrowserstackDriver implements WebDriverProvider {
+    static BrowserstackConfig browserstack = ConfigFactory.create(BrowserstackConfig.class, System.getProperties());
 
     @Nonnull
     @Override
     public WebDriver createDriver(@Nonnull Capabilities capabilities) {
-        MobileConfig mobile = ConfigFactory.create(MobileConfig.class, System.getProperties());
-        AuthConfig auth = ConfigFactory.create(AuthConfig.class, System.getProperties());
-
         MutableCapabilities mutableCapabilities = new MutableCapabilities();
+        mutableCapabilities.merge(capabilities);
 
-        // Set your access credentials
-        mutableCapabilities.setCapability("browserstack.user", auth.getUser());
-        mutableCapabilities.setCapability("browserstack.key", auth.getKey());
+        mutableCapabilities.setCapability("browserstack.user", browserstack.getUser());
+        mutableCapabilities.setCapability("browserstack.key", browserstack.getKey());
 
-        // Set URL of the application under test
-        mutableCapabilities.setCapability("app", mobile.getApp());
+        mutableCapabilities.setCapability("app", browserstack.getApp());
 
-        // Specify device and os_version for testing
-        mutableCapabilities.setCapability("device", mobile.getDevice());
-        mutableCapabilities.setCapability("os_version", mobile.getVersion());
+        mutableCapabilities.setCapability("device", browserstack.getDevice());
+        mutableCapabilities.setCapability("os_version", browserstack.getVersion());
 
-        // Set other BrowserStack capabilities
-        mutableCapabilities.setCapability("project", "BrowserStack Sample");
-        mutableCapabilities.setCapability("build", "browserstack-build-1");
-        mutableCapabilities.setCapability("name", "first_test");
+        mutableCapabilities.setCapability("project", browserstack.getProject());
+        mutableCapabilities.setCapability("build", browserstack.getBuild());
+        mutableCapabilities.setCapability("name", browserstack.getName());
 
-        // Initialise the remote Webdriver using BrowserStack remote URL
-        // and desired capabilities defined above
         try {
             return new RemoteWebDriver(
-                    new URL(auth.getRemoteUrl()), mutableCapabilities);
+                    new URL(browserstack.getUrlRemoteUrl()), mutableCapabilities);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
